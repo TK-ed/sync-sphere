@@ -1,3 +1,13 @@
+import DropzoneComponent from "@/components/DropzoneComponent";
+import { auth } from "@clerk/nextjs";
+
 export default function DashBoard() {
-  return <h1>DashBoard</h1>;
+  const { userId } = auth();
+
+  return (
+    <>
+      {/* <h1>{userId}</h1> */}
+      <DropzoneComponent />
+    </>
+  );
 }

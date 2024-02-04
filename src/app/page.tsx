@@ -1,7 +1,16 @@
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import { supabase } from "../../supabase";
 
-export default function Home() {
+export default async function Home() {
+  const { data, error } = await supabase.storage.from("files").list("", {
+    limit: 100,
+    offset: 0,
+    sortBy: { column: "name", order: "desc" },
+  });
+
+  console.log(data);
+
   return (
     <main>
       <div className="flex flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800 items-center mt-1">
