@@ -3,13 +3,13 @@ import Link from "next/link";
 import { supabase } from "../../supabase";
 
 export default async function Home() {
-  const { data, error } = await supabase.storage.from("files").list("", {
-    limit: 100,
-    offset: 0,
-    sortBy: { column: "name", order: "desc" },
-  });
+  // const { data, error } = await supabase.storage.from("files").list("", {
+  //   limit: 100,
+  //   offset: 0,
+  //   sortBy: { column: "name", order: "desc" },
+  // });
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <main>

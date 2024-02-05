@@ -4,12 +4,23 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
+import { storage } from "../../supabase";
 
 export default function DropzoneComponent() {
   const [loading, setLoading] = useState(false);
   const { user, isLoaded, isSignedIn } = useUser();
 
   const maxSize = 104857600;
+
+  const getFiles = async () => {
+    const { data, error } = await storage.from("files").list("", {
+      limit: 100,
+      offset: 0,
+      sortBy: { column: "name", order: "asc" },
+    });
+    console.log(data);
+  };
+  getFiles();
 
   const onDrop = (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
@@ -28,15 +39,23 @@ export default function DropzoneComponent() {
     if (!user) return;
     setLoading(true);
 
+    try {
+      const { data, error } = await storage
+        .from("files")
+        .upload(file.name, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
     setLoading(false);
   };
 
   return (
-    <Dropzone
-      minSize={0}
-      maxSize={maxSize}
-      onDrop={(acceptedFiles) => console.log(acceptedFiles)}
-    >
+    <Dropzone minSize={0} maxSize={maxSize} onDrop={onDrop}>
       {({
         getRootProps,
         getInputProps,
