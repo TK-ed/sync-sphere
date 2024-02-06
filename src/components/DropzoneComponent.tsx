@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
-import { storage } from "../../supabase";
+import { storage, supabase } from "../../supabase";
 
 export default function DropzoneComponent() {
   const [loading, setLoading] = useState(false);
@@ -12,15 +12,15 @@ export default function DropzoneComponent() {
 
   const maxSize = 104857600;
 
-  const getFiles = async () => {
-    const { data, error } = await storage.from("files").list("", {
-      limit: 100,
-      offset: 0,
-      sortBy: { column: "name", order: "asc" },
-    });
-    console.log(data);
-  };
-  getFiles();
+  // const getFiles = async () => {
+  //   const { data, error } = await storage.from("files").list("", {
+  //     limit: 100,
+  //     offset: 0,
+  //     sortBy: { column: "name", order: "asc" },
+  //   });
+  //   console.log(data);
+  // };
+  // getFiles();
 
   const onDrop = (acceptedFiles: File[]) => {
     acceptedFiles.forEach((file) => {
@@ -50,6 +50,29 @@ export default function DropzoneComponent() {
     } catch (error) {
       console.log(error);
     }
+
+    // Generate a signed URL for the file
+    const { data } = supabase.storage.from("files").getPublicUrl(file.name);
+    let downloadUrl = data.publicUrl;
+    console.log(downloadUrl);
+
+    try {
+      const { data, error } = await supabase.from("files").insert({
+        user_id: user.id,
+        filename: file.name,
+        fullName: user.fullName,
+        profileImg: user.imageUrl,
+        created_at: new Date(),
+        type: file.type,
+        size: file.size,
+        downloadUrl: downloadUrl,
+      });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+    const { datas } = await supabase.from("files").select();
+    console.log(datas);
 
     setLoading(false);
   };
