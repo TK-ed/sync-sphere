@@ -39,18 +39,6 @@ export default function DropzoneComponent() {
     if (!user) return;
     setLoading(true);
 
-    try {
-      const { data, error } = await storage
-        .from("files")
-        .upload(file.name, file, {
-          cacheControl: "3600",
-          upsert: false,
-        });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-
     // Generate a signed URL for the file
     const { data } = supabase.storage.from("files").getPublicUrl(file.name);
     let downloadUrl = data.publicUrl;
@@ -71,8 +59,18 @@ export default function DropzoneComponent() {
     } catch (error) {
       console.log(error);
     }
-    const { datas } = await supabase.from("files").select();
-    console.log(datas);
+
+    try {
+      const { data, error } = await storage
+        .from("files")
+        .upload(file.name, file, {
+          cacheControl: "3600",
+          upsert: false,
+        });
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
 
     setLoading(false);
   };
