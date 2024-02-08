@@ -45,6 +45,7 @@ export default function DropzoneComponent() {
     console.log(downloadUrl);
 
     try {
+      let id = Math.floor(Math.random() * 6) + 1;
       const { data, error } = await supabase.from("files").insert({
         user_id: user.id,
         filename: file.name,
@@ -54,8 +55,8 @@ export default function DropzoneComponent() {
         type: file.type,
         size: file.size,
         downloadUrl: downloadUrl,
+        id: id,
       });
-      console.log(data);
     } catch (error) {
       console.log(error);
     }

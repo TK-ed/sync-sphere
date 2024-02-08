@@ -2,6 +2,7 @@ import DropzoneComponent from "@/components/DropzoneComponent";
 import { supabase } from "../../../supabase";
 import { auth } from "@clerk/nextjs";
 import Wrapper from "@/components/table/Wrapper";
+import Skeleton from "@/components/Skeleton";
 
 export default async function DashBoard() {
   const { userId } = auth();
@@ -29,6 +30,7 @@ export default async function DashBoard() {
       <section className="container space-y-5">
         <h2>All files...</h2>
 
+        <Skeleton />
         <Wrapper skeletonFiles={skeletonFiles} />
       </section>
     </div>
