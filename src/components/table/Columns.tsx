@@ -28,11 +28,11 @@ export const columns: ColumnDef<any>[] = [
     },
   },
   {
-    accessorKey: "fileName",
+    accessorKey: "filename",
     header: "Filename",
   },
   {
-    accessorKey: "createdAt",
+    accessorKey: "created_at",
     header: "Date added",
     cell: ({ renderValue, ...props }) => {
       const value = renderValue();

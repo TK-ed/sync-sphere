@@ -4,48 +4,23 @@ import { Button } from "../ui/button";
 import { columns } from "./Columns";
 import { DataTable } from "./Table";
 import { useEffect, useState } from "react";
-import { Skeleton } from "../Skeleton";
 import { supabase } from "../../../supabase";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function Wrapper({ skeletonFiles }: any) {
   const { user } = useUser();
-  const [sort, setSort] = useState<"asc" | "desc">("desc");
   const [initialFiles, setInitialFiles] = useState<Array<any>>([]);
+  const [ascendingOrder, setAscendingOrder] = useState(true);
   const [loading, setLoading] = useState(true);
-
-  console.log(initialFiles);
-
-  const ascFiles = async () => {
-    const { data, error } = await supabase
-      .from("files")
-      .select()
-      .order("created_at", { ascending: true });
-    console.log(data);
-  };
-
-  const descFiles = async () => {
-    const { data, error } = await supabase
-      .from("files")
-      .select()
-      .order("created_at", { ascending: false });
-  };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        setLoading(true);
-
         const { data, error } = await supabase
           .from("files")
           .select()
-          .order("created_at", { ascending: true });
-
-        console.log(data);
-
-        if (error) {
-          throw error;
-        }
-
+          .order("created_at", { ascending: ascendingOrder });
+        // @ts-ignore
         setInitialFiles(data);
         setLoading(false);
       } catch (error) {
@@ -54,9 +29,11 @@ export default function Wrapper({ skeletonFiles }: any) {
     };
 
     fetchData();
-  }, [sort]);
+  }, [ascendingOrder]);
 
-  if (loading || !initialFiles) {
+  console.log(initialFiles);
+
+  if (!initialFiles || loading) {
     return (
       <div className="flex flex-col">
         <Button variant={"outline"} className="ml-auto w-36 h-10 mb-5">
@@ -65,7 +42,8 @@ export default function Wrapper({ skeletonFiles }: any) {
 
         <div className="border rounded-lg">
           <div className="border-b h-12" />
-          {initialFiles.map((file) => (
+          {/* @ts-ignore */}
+          {skeletonFiles.map((file) => (
             <div
               key={file.id}
               className="flex items-center space-x-4 p-5 w-full"
@@ -75,7 +53,7 @@ export default function Wrapper({ skeletonFiles }: any) {
             </div>
           ))}
 
-          {initialFiles.length === 0 && (
+          {skeletonFiles.length === 0 && (
             <div className="flex items-center space-x-4 p-5 w-full">
               <Skeleton className="h-12 w-12" />
               <Skeleton className="h-12 w-full" />
@@ -87,16 +65,18 @@ export default function Wrapper({ skeletonFiles }: any) {
   }
 
   return (
-    <>
+    <div className="flex flex-col space-y-5 pb-10">
       <Button
-        onClick={() => setSort(sort === "desc" ? "asc" : "desc")}
-        className="items-end"
-        onClickCapture={() => (sort === "asc" ? ascFiles() : descFiles())}
+        className="ml-auto items-end w-fit"
+        onClick={() => {
+          setAscendingOrder((prevOrder) => !prevOrder);
+        }}
       >
-        Sort by {sort === "desc" ? "Newest" : "Oldest"}
+        Sort by {""}
+        {ascendingOrder ? "Oldest" : "Newest"}
+        {""}
       </Button>
-      {loading && <Skeleton className={"items-center"} />}
-      {!loading && <DataTable columns={columns} data={skeletonFiles} />}
-    </>
+      <DataTable columns={columns} data={initialFiles} />
+    </div>
   );
 }
