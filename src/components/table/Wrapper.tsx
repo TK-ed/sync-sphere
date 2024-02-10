@@ -31,7 +31,7 @@ export default function Wrapper({ skeletonFiles }: any) {
     fetchData();
   }, [ascendingOrder]);
 
-  console.log(initialFiles);
+  // console.log(initialFiles);
 
   if (!initialFiles || loading) {
     return (
@@ -73,7 +73,7 @@ export default function Wrapper({ skeletonFiles }: any) {
         }}
       >
         Sort by {""}
-        {ascendingOrder ? "Oldest" : "Newest"}
+        {ascendingOrder ? "Newest" : "Oldest"}
         {""}
       </Button>
       <DataTable columns={columns} data={initialFiles} />

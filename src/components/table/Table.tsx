@@ -15,6 +15,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "../ui/button";
+import { FileType } from "../../../typing";
+import { TrashIcon } from "@radix-ui/react-icons";
+import { useAppStore } from "../../../store/store";
+import { DeleteModal } from "../DeleteModal";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -31,12 +36,23 @@ export function DataTable<TData, TValue>({
     getCoreRowModel: getCoreRowModel(),
   });
 
+  const [setFileName, setIsDeleteModalOpen] = useAppStore((state) => [
+    state.setFileName,
+    state.setIsDeleteModalOpen,
+  ]);
+
+  const openDeleteModal = (fileName: string) => {
+    setFileName(fileName);
+    setIsDeleteModalOpen(true);
+  };
+
   return (
     <div className="rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
+              <DeleteModal />
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -64,12 +80,26 @@ export function DataTable<TData, TValue>({
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
+                {/* @ts-ignore */}
+                <TableCell key={(row.original as FileType).filename}>
+                  <Button
+                    variant={"outline"}
+                    onClick={() => {
+                      console.log(row.original);
+                      // @ts-ignore
+                      openDeleteModal((row.original as FileType).filename);
+                    }}
+                  >
+                    {/* @ts-ignore */}
+                    <TrashIcon size={20} />
+                  </Button>
+                </TableCell>
               </TableRow>
             ))
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                You have no files.
               </TableCell>
             </TableRow>
           )}
