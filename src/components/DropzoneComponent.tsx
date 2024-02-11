@@ -5,6 +5,7 @@ import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { storage, supabase } from "../../supabase";
+import toast from "react-hot-toast";
 
 export default function DropzoneComponent() {
   const [loading, setLoading] = useState(false);
@@ -43,6 +44,7 @@ export default function DropzoneComponent() {
     const { data } = supabase.storage.from("files").getPublicUrl(file.name);
     let downloadUrl = data.publicUrl;
     console.log(downloadUrl);
+    const toastId = toast.loading("Uploading Files...");
 
     try {
       let id = Math.floor(Math.random() * 6) + 1;
@@ -57,8 +59,10 @@ export default function DropzoneComponent() {
         downloadUrl: downloadUrl,
         id: id,
       });
+      toast.success("Files uploaded successfully!", { id: toastId });
     } catch (error) {
       console.log(error);
+      toast.error("Error uploading file!", { id: toastId });
     }
 
     try {
@@ -74,6 +78,7 @@ export default function DropzoneComponent() {
     }
 
     setLoading(false);
+    window.location.reload();
   };
 
   return (
