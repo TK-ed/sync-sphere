@@ -12,9 +12,11 @@ import {
 import { useAppStore } from "../../store/store";
 import { useUser } from "@clerk/nextjs";
 import { supabase } from "../../supabase";
+import toast from "react-hot-toast";
 
 export function DeleteModal() {
   const { user } = useUser(); // Invoke the useUser function
+
   const [fileName, isDeleteModalOpen, setIsDeleteModalOpen] = useAppStore(
     (state) => [
       state.fileName,
@@ -26,6 +28,8 @@ export function DeleteModal() {
   async function deleteFile() {
     if (!user || !fileName) return;
     console.log(fileName);
+
+    const toastId = toast.loading("Deleting file...");
 
     try {
       const { data: storageData, error: storageError } = await supabase.storage
@@ -45,15 +49,12 @@ export function DeleteModal() {
         .eq("filename", fileName);
       console.log(tableData);
 
-      if (tableError) {
-        console.error("Error deleting from table:", tableError);
-        // Handle error from Supabase table deletion
-      } else {
-        console.log("Deleted from table successfully:", tableData);
-      }
+      toast.success("File deleted successfully!", { id: toastId });
 
       setIsDeleteModalOpen(false);
+      window.location.reload();
     } catch (err) {
+      toast.error("Error deleting file!", { id: toastId });
       console.log(err);
     }
   }
