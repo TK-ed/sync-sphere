@@ -1,32 +1,32 @@
 import { ArrowRightIcon } from "@radix-ui/react-icons";
+import { TextGenerateEffectDemo } from "@/components/ui/TypeWriter";
 import Link from "next/link";
-import { supabase } from "../../supabase";
+import { TypewriterEffect } from "@/components/Typewriter-effect";
 
 export default async function Home() {
-  // const { data, error } = await supabase.storage.from("files").list("", {
-  //   limit: 100,
-  //   offset: 0,
-  //   sortBy: { column: "name", order: "desc" },
-  // });
-
-  // console.log(data);
+  const words = [
+    {
+      text: "Welcome",
+    },
+    {
+      text: "to",
+    },
+    {
+      text: "Sync.Sphere",
+    },
+  ];
 
   return (
     <main>
       <div className="flex flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800 items-center mt-1">
         <div className="flex flex-col bg-[#2b2929] p-10 space-y-5 text-white dark:bg-slate-800">
+          <TypewriterEffect words={words} className="font-extrabold my-0" />
           <h1 className="text-5xl font-bold">
-            Welcome to <span className="sync">Sync.Sphere</span>
+            {/* Welcome to <span className="text-orange-500 underline">Sync.Sphere</span> */}
             <br /> <br />
             Where Your Data Finds Harmony in the Cloud.
           </h1>
-          <p className="pb-20">
-            SyncSphere is your digital sanctuary, a cutting-edge storage web app
-            designed to seamlessly synchronize and safeguard your files in the
-            cloud. Effortlessly navigate the realms of data organization as
-            Sync.Sphere harmonizes simplicity with powerful features. Embrace
-            the future of cloud storage.
-          </p>
+          <TextGenerateEffectDemo />
           <h3 className="text-4xl mt-4">Embrace Sync.Sphere!!</h3>
           <Link
             href={"/dashboard"}
