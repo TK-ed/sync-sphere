@@ -1,29 +1,26 @@
+"use client";
 import { ArrowRightIcon } from "@radix-ui/react-icons";
 import { TextGenerateEffectDemo } from "@/components/ui/TypeWriter";
 import Link from "next/link";
-import { TypewriterEffect } from "@/components/Typewriter-effect";
+import Type from "@/components/typing";
+import { motion } from "framer-motion";
+import { useEffect } from "react";
 
-export default async function Home() {
-  const words = [
-    {
-      text: "Welcome",
-    },
-    {
-      text: "to",
-    },
-    {
-      text: "Sync.Sphere",
-    },
-  ];
-
+export default function Home() {
+  useEffect(() => {});
   return (
-    <main>
+    <motion.main
+      initial={{ opacity: 0, y: 0 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.7, duration: 1, ease: "easeInOut" }}
+    >
       <div className="flex flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800 items-center mt-1">
         <div className="flex flex-col bg-[#2b2929] p-10 space-y-5 text-white dark:bg-slate-800">
-          <TypewriterEffect words={words} className="font-extrabold my-0" />
+          <h1 className="font-extrabold text-6xl text-[#FAF9F6] dark:text-[#39FF14]">
+            <Type />
+          </h1>
           <h1 className="text-5xl font-bold">
-            {/* Welcome to <span className="text-orange-500 underline">Sync.Sphere</span> */}
-            <br /> <br />
+            <br />
             Where Your Data Finds Harmony in the Cloud.
           </h1>
           <TextGenerateEffectDemo />
@@ -46,6 +43,6 @@ export default async function Home() {
           </video>
         </div>
       </div>
-    </main>
+    </motion.main>
   );
 }
