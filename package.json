@@ -18,6 +18,7 @@
     "@supabase/supabase-js": "^2.39.3",
     "@tanstack/react-table": "^8.11.8",
     "@types/react-file-icon": "^1.0.4",
+    "@vercel/analytics": "^1.2.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",
     "firebase": "^10.8.0",
