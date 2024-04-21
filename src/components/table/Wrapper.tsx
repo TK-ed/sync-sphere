@@ -31,8 +31,6 @@ export default function Wrapper({ skeletonFiles }: any) {
     fetchData();
   }, [ascendingOrder]);
 
-  // console.log(initialFiles);
-
   if (!initialFiles || loading) {
     return (
       <div className="flex flex-col">

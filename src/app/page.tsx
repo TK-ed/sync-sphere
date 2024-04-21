@@ -16,7 +16,7 @@ export default function Home() {
     >
       <div className="flex flex-col lg:flex-row bg-[#1E1919] dark:bg-slate-800 items-center mt-1">
         <div className="flex flex-col bg-[#2b2929] p-10 space-y-5 text-white dark:bg-slate-800">
-          <h1 className="font-extrabold text-6xl text-[#FAF9F6] dark:text-[#39FF14]">
+          <h1 className="font-extrabold text-6xl bg-gradient-to-r from-blue-500 via-blue-400 to-blue-100 inline-block text-transparent bg-clip-text">
             <Type />
           </h1>
           <h1 className="text-5xl font-bold">
