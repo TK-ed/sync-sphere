@@ -20,13 +20,10 @@ export default async function DashBoard() {
     createdAt: data.created_at || null,
   }));
 
-  // console.log(skeletonFiles);
-
   return (
     <div className="border-t">
       <DropzoneComponent />
       <section className="container space-y-5">
-        <h2>All files...</h2>
         <Wrapper skeletonFiles={skeletonFiles} />
       </section>
     </div>
