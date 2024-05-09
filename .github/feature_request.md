@@ -13,4 +13,5 @@ The discussion's goal is to achieve the following:
 # How to create a ticket
 
 1. **Understand**: Start by understanding how sync.sphere works and how its been coded
-2. **Raise PR**: After creating a feature you can give a pull request for our community to check if its valid or needs any improvement
+2. **Give your suggestions**: You can either give your suggestions or even work on them and contribute.
+3. **Raise PR**: After creating a feature you can give a pull request for our community to check if its valid or needs any improvement
