@@ -30,7 +30,6 @@ export function DeleteModal() {
     console.log(fileName);
 
     const toastId = toast.loading("Deleting file...");
-    toast.loading(fileName);
 
     try {
       const { data: storageData, error: storageError } = await supabase.storage
