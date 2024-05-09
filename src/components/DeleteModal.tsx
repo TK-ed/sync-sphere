@@ -35,8 +35,6 @@ export function DeleteModal() {
       const { data: storageData, error: storageError } = await supabase.storage
         .from("files")
         .remove([`${fileName}`]);
-      console.log(storageData);
-
       if (storageError) {
         console.error("Error removing from storage:", storageError);
       } else {
